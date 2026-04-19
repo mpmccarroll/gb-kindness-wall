@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  --gb-maroon: #7B1F32;
+  --gb-maroon-dark: #5A1625;
+  --gb-orange: #E8712B;
+  --gb-orange-light: #F09050;
+  --gb-cream: #FFF8F0;
+  --gb-black: #1A1A1A;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--gb-cream);
+  color: var(--gb-black);
+}
+
+/* Sticky note card effect */
+.kindness-card {
+  position: relative;
+  padding: 1.25rem;
+  border-radius: 4px;
+  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kindness-card:hover {
+  transform: translateY(-2px) rotate(0.5deg);
+  box-shadow: 3px 5px 12px rgba(0, 0, 0, 0.15), 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Rotating card colors */
+.kindness-card.color-0 { background: #FDEBD0; }
+.kindness-card.color-1 { background: #F5CBA7; }
+.kindness-card.color-2 { background: #FAD7A0; }
+.kindness-card.color-3 { background: #FBEEE6; }
+.kindness-card.color-4 { background: #FDF2E9; }
+.kindness-card.color-5 { background: #FEF9E7; }
+
+/* Slight random rotations for organic feel */
+.kindness-card:nth-child(3n) { transform: rotate(-1deg); }
+.kindness-card:nth-child(3n+1) { transform: rotate(0.5deg); }
+.kindness-card:nth-child(3n+2) { transform: rotate(-0.5deg); }
+.kindness-card:hover { transform: rotate(0deg) translateY(-2px) !important; }
+
+/* Paw print decorative background */
+.paw-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%237B1F32' opacity='0.04'%3E%3Cellipse cx='50' cy='65' rx='18' ry='22'/%3E%3Ccircle cx='30' cy='40' r='10'/%3E%3Ccircle cx='70' cy='40' r='10'/%3E%3Ccircle cx='20' cy='55' r='8'/%3E%3Ccircle cx='80' cy='55' r='8'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+
+/* Tab active state */
+.tab-active {
+  border-bottom: 3px solid var(--gb-orange);
+  color: var(--gb-maroon);
+  font-weight: 700;
+}
+
+/* Success animation */
+@keyframes checkmark {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.success-check {
+  animation: checkmark 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* Masonry-like grid for wall */
+.wall-grid {
+  column-count: 1;
+  column-gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .wall-grid { column-count: 2; }
+}
+
+@media (min-width: 1024px) {
+  .wall-grid { column-count: 3; }
+}
+
+@media (min-width: 1280px) {
+  .wall-grid { column-count: 4; }
+}
+
+.wall-grid > * {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
