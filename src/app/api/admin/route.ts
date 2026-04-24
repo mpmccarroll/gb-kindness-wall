@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
   try {
     const { id, action } = await request.json();
 
-    if (!id || !["approve", "reject"].includes(action)) {
+    if (!id || !["approve", "reject", "delete"].includes(action)) {
       return NextResponse.json(
         { error: "Invalid request" },
         { status: 400 }
@@ -70,6 +70,24 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createServerClient();
+
+    if (action === "delete") {
+      const { error } = await supabase
+        .from("kindness_messages")
+        .delete()
+        .eq("id", id);
+
+      if (error) {
+        console.error("Delete error:", error);
+        return NextResponse.json(
+          { error: "Failed to delete message" },
+          { status: 500 }
+        );
+      }
+
+      return NextResponse.json({ success: true, deleted: true });
+    }
+
     const newStatus = action === "approve" ? "approved" : "rejected";
 
     const { error } = await supabase

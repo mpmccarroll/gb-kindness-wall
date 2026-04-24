@@ -246,6 +246,19 @@ export default function SubmitPage() {
         </p>
       </div>
 
+      {/* View Wall CTA */}
+      <div className="max-w-2xl mx-auto px-4 pb-4">
+        <a
+          href="/wall"
+          className="block w-full py-4 bg-gb-orange text-white font-display text-lg text-center rounded-xl shadow-md hover:bg-gb-orange-dark transition-colors"
+        >
+          👀 See the Kindness Wall Before You Post!
+        </a>
+        <p className="text-center font-body text-sm text-gb-black/50 mt-2">
+          Want to see what others are saying? Check out the wall first, then come back to add yours!
+        </p>
+      </div>
+
       {/* Form */}
       <form
         onSubmit={handleSubmit}

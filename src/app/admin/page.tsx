@@ -52,6 +52,25 @@ export default function AdminPage() {
     }
   }
 
+  async function handleDelete(id: string) {
+    if (!confirm("Permanently delete this message?")) return;
+    try {
+      const res = await fetch("/api/admin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-password": password,
+        },
+        body: JSON.stringify({ id, action: "delete" }),
+      });
+      if (res.ok) {
+        fetchData();
+      }
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
+  }
+
   async function handleModerate(id: string, action: "approve" | "reject") {
     try {
       const res = await fetch("/api/admin", {
@@ -205,33 +224,43 @@ export default function AdminPage() {
                 </p>
               </div>
 
-              {msg.status === "pending" && (
-                <div className="flex gap-2 ml-4 flex-shrink-0">
-                  <button
-                    onClick={() => handleModerate(msg.id, "approve")}
-                    className="px-3 py-1.5 bg-green-500 text-white rounded-lg font-body text-sm font-semibold hover:bg-green-600 transition-colors"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => handleModerate(msg.id, "reject")}
-                    className="px-3 py-1.5 bg-red-500 text-white rounded-lg font-body text-sm font-semibold hover:bg-red-600 transition-colors"
-                  >
-                    Reject
-                  </button>
-                </div>
-              )}
+              <div className="flex gap-2 ml-4 flex-shrink-0 items-center">
+                {msg.status === "pending" && (
+                  <>
+                    <button
+                      onClick={() => handleModerate(msg.id, "approve")}
+                      className="px-3 py-1.5 bg-green-500 text-white rounded-lg font-body text-sm font-semibold hover:bg-green-600 transition-colors"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleModerate(msg.id, "reject")}
+                      className="px-3 py-1.5 bg-red-500 text-white rounded-lg font-body text-sm font-semibold hover:bg-red-600 transition-colors"
+                    >
+                      Reject
+                    </button>
+                  </>
+                )}
 
-              {msg.status === "approved" && view === "all" && (
-                <span className="text-green-500 text-sm font-body font-semibold ml-4">
-                  ✓ Approved
-                </span>
-              )}
-              {msg.status === "rejected" && view === "all" && (
-                <span className="text-red-500 text-sm font-body font-semibold ml-4">
-                  ✗ Rejected
-                </span>
-              )}
+                {msg.status === "approved" && view === "all" && (
+                  <span className="text-green-500 text-sm font-body font-semibold">
+                    ✓ Approved
+                  </span>
+                )}
+                {msg.status === "rejected" && view === "all" && (
+                  <span className="text-red-500 text-sm font-body font-semibold">
+                    ✗ Rejected
+                  </span>
+                )}
+
+                <button
+                  onClick={() => handleDelete(msg.id)}
+                  className="px-3 py-1.5 bg-gb-black/10 text-gb-black/50 rounded-lg font-body text-sm font-semibold hover:bg-red-100 hover:text-red-600 transition-colors"
+                  title="Permanently delete"
+                >
+                  🗑
+                </button>
+              </div>
             </div>
           </div>
         ))}
